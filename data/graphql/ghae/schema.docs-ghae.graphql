@@ -11047,6 +11047,11 @@ type Enterprise implements AnnouncementBanner & Node {
   ): URI!
 
   """
+  The enterprise's billing email.
+  """
+  billingEmail: String
+
+  """
   Enterprise billing information visible to enterprise billing managers.
   """
   billingInfo: EnterpriseBillingInfo
@@ -28242,6 +28247,36 @@ enum ProjectTemplate {
 }
 
 """
+A property that must match
+"""
+type PropertyTargetDefinition {
+  """
+  The name of the property
+  """
+  name: String!
+
+  """
+  The values to match for
+  """
+  propertyValues: [String!]!
+}
+
+"""
+A property that must match
+"""
+input PropertyTargetDefinitionInput {
+  """
+  The name of the property
+  """
+  name: String!
+
+  """
+  The values to match for
+  """
+  propertyValues: [String!]!
+}
+
+"""
 A user's public key.
 """
 type PublicKey implements Node {
@@ -38526,6 +38561,36 @@ enum RepositoryPrivacy {
 }
 
 """
+Parameters to be used for the repository_property condition
+"""
+type RepositoryPropertyConditionTarget {
+  """
+  Array of repository properties that must not match.
+  """
+  exclude: [PropertyTargetDefinition!]!
+
+  """
+  Array of repository properties that must match
+  """
+  include: [PropertyTargetDefinition!]!
+}
+
+"""
+Parameters to be used for the repository_property condition
+"""
+input RepositoryPropertyConditionTargetInput {
+  """
+  Array of repository properties that must not match.
+  """
+  exclude: [PropertyTargetDefinitionInput!]!
+
+  """
+  Array of repository properties that must match
+  """
+  include: [PropertyTargetDefinitionInput!]!
+}
+
+"""
 A repository rule.
 """
 type RepositoryRule implements Node {
@@ -38568,6 +38633,11 @@ type RepositoryRuleConditions {
   Configuration for the repository_name condition
   """
   repositoryName: RepositoryNameConditionTarget
+
+  """
+  Configuration for the repository_property condition
+  """
+  repositoryProperty: RepositoryPropertyConditionTarget
 }
 
 """
@@ -38588,6 +38658,11 @@ input RepositoryRuleConditionsInput {
   Configuration for the repository_name condition
   """
   repositoryName: RepositoryNameConditionTargetInput
+
+  """
+  Configuration for the repository_property condition
+  """
+  repositoryProperty: RepositoryPropertyConditionTargetInput
 }
 
 """
@@ -45316,6 +45391,11 @@ type UnpinIssuePayload {
   A unique identifier for the client performing the mutation.
   """
   clientMutationId: String
+
+  """
+  The id of the pinned issue that was unpinned
+  """
+  id: ID
 
   """
   The issue that was unpinned
